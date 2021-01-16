@@ -148,14 +148,14 @@ class API {
     if (ids != null) {
       options = {
         "id": playlistIds,
-        "part": "snippet,contentDetails",
+        "part": "snippet",
         "maxResults": "${this.maxResults}",
         "key": "${this.key}",
       };
     } else if (channelId != null) {
       options = {
         "channelId": channelId,
-        "part": "snippet,contentDetails",
+        "part": "snippet",
         "maxResults": "${this.maxResults}",
         "key": "${this.key}",
       };

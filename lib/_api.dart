@@ -39,6 +39,13 @@ class API {
     return url;
   }
 
+  Uri playlistUri(List<String> playlistIds, String channelId, String order) {
+    this.order = order ?? 'date';
+    var options = getPlaylistOption(playlistIds, channelId, this.order);
+    Uri url = new Uri.https(baseURL, "youtube/v3/playlists", options);
+    return url;
+  }
+
   Uri videoUri(List<String> videoId) {
     int length = videoId.length;
     String videoIds = videoId.join(',');
@@ -132,6 +139,28 @@ class API {
       "maxResults": "${this.maxResults}",
       "key": "${this.key}",
     };
+    return options;
+  }
+
+  Object getPlaylistOption(List<String> ids, String channelId, String order) {
+    String playlistIds = ids == null ? null : ids.join(",");
+    Object options;
+    if (ids != null) {
+      options = {
+        "id": playlistIds,
+        "part": "snippet,contentDetails",
+        "maxResults": "${this.maxResults}",
+        "key": "${this.key}",
+      };
+    } else if (channelId != null) {
+      options = {
+        "channelId": channelId,
+        "part": "snippet,contentDetails",
+        "maxResults": "${this.maxResults}",
+        "key": "${this.key}",
+      };
+    }
+
     return options;
   }
 

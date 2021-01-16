@@ -66,6 +66,20 @@ class YoutubeAPI {
     return result;
   }
 
+  Future<List<YT_API>> playlist(List<String> playlistIds, String channelId,
+      {String order}) async {
+    this.getTrending = false;
+    Uri url = api.playlistUri(playlistIds, channelId, order);
+    var res = await http.get(url, headers: {"Accept": "application/json"});
+    var jsonData = json.decode(res.body);
+    if (jsonData['error'] != null) {
+      throw jsonData['error']['message'];
+    }
+    if (jsonData['pageInfo']['totalResults'] == null) return <YT_API>[];
+    List<YT_API> result = await _getResultFromJson(jsonData);
+    return result;
+  }
+
   /*
   Get video details from video Id
    */
